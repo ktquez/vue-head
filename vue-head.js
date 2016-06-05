@@ -37,7 +37,7 @@
     undo: function (states) {
       if (!states.length) return
       var headElement = this.getHead()
-      states.map((state) => {
+      states.map(function (state) {
         ;(state.before) ? headElement.replaceChild(state.before, state.after) : headElement.removeChild(state.after)
       })
     },
@@ -59,10 +59,10 @@
     meta: function (objMeta) {
       if (!objMeta) return
 
-      Object.keys(objMeta).map((prop) => {
+      Object.keys(objMeta).map(function (prop) {
         var meta = objMeta[prop]
 
-        Object.keys(meta).map((value) => {
+        Object.keys(meta).map(function (value) {
 
           // set state of elements
           var el = this.getHead().querySelector('meta[' + prop + '="' + value + '"]') || document.createElement('meta')
@@ -97,14 +97,14 @@
     link: function (objLink) {
       if (!objLink) return
 
-      Object.keys(objLink).map((rel) => {
+      Object.keys(objLink).map(function (rel) {
         var el = this.getHead().querySelector('link[rel="' + rel + '"]') || document.createElement('link')
         var props = objLink[rel]
         var clone = el.cloneNode(true)
         var state = {}
 
         // Assign for each the props
-        Object.keys(props).map((prop) => {
+        Object.keys(props).map(function (prop) {
           el.setAttribute(prop, props[prop])
         })
 
@@ -146,7 +146,7 @@
         let self = this
         let head = this.$options.head
         if (!head) return
-        Object.keys(head).map((key) => {
+        Object.keys(head).map(function (key) {
           if (head[key]) {
             let obj = (typeof head[key] === 'object') ? head[key] : head[key].bind(self)()
             util[key](obj)
@@ -165,7 +165,7 @@
     })
   }
 
-  VueHead.version = '1.0.0'
+  VueHead.version = '1.0.1'
 
   // auto install
   if (typeof Vue !== 'undefined') {
