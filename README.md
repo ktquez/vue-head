@@ -1,2 +1,2 @@
 ## vue-head
-Manipulating meta information in simple and easy way head tag
+Manipulating the meta information of the head tag, a simple and easy way
