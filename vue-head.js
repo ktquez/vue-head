@@ -121,8 +121,14 @@
     })
   }
 
-  
+  /**
+   * Plugin | vue-head
+   * 
+   * @param  {Function} Vue
+   * @param  {Object} options
+   */
   function vueHead (Vue, options){
+
     if (installed) return
     installed = true
 
@@ -151,8 +157,9 @@
         diff = []
       }
     })
-
   }
+
+  vueHead.version = '0.0.1'
 
   // auto install
   if (typeof Vue !== 'undefined') {
