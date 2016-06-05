@@ -36,7 +36,7 @@
      */
     undo: function (states) {
       if (!states.length) return
-      var headElement = util.getHead()
+      var headElement = this.getHead()
       states.map(function (state) {
         ;(state.before) ? headElement.replaceChild(state.before, state.after) : headElement.removeChild(state.after)
       })
