@@ -3,7 +3,7 @@
   'use strict'
 
   var opt = {
-    compl: document.title,
+    complement: document.title,
     separator: '|'
   }
 
@@ -11,66 +11,105 @@
   var diffTitle = {}
   var installed = false
 
-  /**
-   * This function return the element <head>
-   * @return {Object}
-   */
-  function getHead () {
-    return document.getElementsByTagName('head')[0]
-  }
+  var util = {
+    
+    /**
+     * This function return the element <head>
+     * @return {Object}
+     */
+    getHead: function () {
+      return document.getElementsByTagName('head')[0]
+    },
 
-  /**
-   * Undo the document title for previous state
-   * @param  {Object} state 
-   */
-  function undoTitle (state) {
-    if (!state.before) return
-    document.title = state.before
-  }
+    /**
+     * Undo the document title for previous state
+     * @param  {Object} state 
+     */
+    undoTitle: function (state) {
+      if (!state.before) return
+      document.title = state.before
+    },
 
-  /**
-   * Undo elements to its previous state
-   * @param  {Object} states
-   */
-  function undo (states) {
-    if (!states.length) return
-    states.map((state) => {
-      (state.before) ? this.getHead().replaceChild(state.before, state.after) : this.getHead().removeChild(state.after)
-    })
-  }
+    /**
+     * Undo elements to its previous state
+     * @param  {Object} states
+     */
+    undo: function (states) {
+      if (!states.length) return
+      var headElement = this.getHead()
+      states.map((state) => {
+        ;(state.before) ? headElement.replaceChild(state.before, state.after) : headElement.removeChild(state.after)
+      })
+    },
 
-  /**
-   * Change document title
-   * @param  {Object} val
-   */
-  function title (objTitle) {
-    if (!objTitle) return
-    diffTitle.before = opt.compl
-    document.title = objTitle.inner + ' ' + (objTitle.separator || opt.separator) + ' ' + (objTitle.compl || opt.compl)
-  }
+    /**
+     * Change document title
+     * @param  {Object} val
+     */
+    title: function (objTitle) {
+      if (!objTitle) return
+      diffTitle.before = opt.complement
+      document.title = objTitle.inner + ' ' + (objTitle.separator || opt.separator) + ' ' + (objTitle.complement || opt.complement)
+    },
 
-  /**
-   * Manages meta tags
-   * @param  {Object} objMeta
-   */
-  function meta (objMeta) {
-    if (!objMeta) return
-    var state = {}
+    /**
+     * Manages meta tags
+     * @param  {Object} objMeta
+     */
+    meta: function (objMeta) {
+      if (!objMeta) return
 
-    Object.keys(objMeta).map((prop) => {
-      var meta = objMeta[prop]
+      Object.keys(objMeta).map((prop) => {
+        var meta = objMeta[prop]
 
-      Object.keys(meta).map((value) => {
+        Object.keys(meta).map((value) => {
 
-        // set state of elements
-        var el = this.getHead().querySelector('meta[' + prop + '="' + value + '"]') || document.createElement('meta')
+          // set state of elements
+          var el = this.getHead().querySelector('meta[' + prop + '="' + value + '"]') || document.createElement('meta')
+          var clone = el.cloneNode(true)
+          var state = {}
+
+          // Assign Content
+          el.setAttribute('content', meta[value])
+
+          // If exists element
+          if (el.getAttribute(prop)) {
+            state.before = clone
+            state.after = el
+            diff.push(state)
+            return
+          }
+
+          // If not exists element
+          el.setAttribute(prop, value)
+          this.getHead().appendChild(el)
+          state.after = el
+          diff.push(state)
+        })
+
+      })
+    },
+
+    /**
+     * Manages link tags
+     * @param  {Object} objLink
+     */
+    link: function (objLink) {
+      if (!objLink) return
+
+      Object.keys(objLink).map((rel) => {
+        var el = this.getHead().querySelector('link[rel="' + rel + '"]') || document.createElement('link')
+        var props = objLink[rel]
         var clone = el.cloneNode(true)
+        var state = {}
 
-        // Assign Content
-        el.setAttribute('content', meta[value])
+        // Assign for each the props
+        Object.keys(props).map((prop) => {
+          el.setAttribute(prop, props[prop])
+        })
 
         // If exists element
-        if (el.getAttribute(prop)) {
+        if (el.getAttribute('rel')) {
           state.before = clone
           state.after = el
           diff.push(state)
@@ -78,47 +117,13 @@
         }
 
         // If not exists element
-        el.setAttribute(prop, value)
+        el.setAttribute('rel', rel)
         this.getHead().appendChild(el)
         state.after = el
         diff.push(state)
       })
+    }
 
-    })
-  }
-
-  /**
-   * Manages link tags
-   * @param  {Object} objLink
-   */
-  function link (objLink) {
-    if (!objLink) return
-    var state = {}
-
-    Object.keys(objLink).map((rel) => {
-      var el = this.getHead().querySelector('link[rel="' + rel + '"]') || document.createElement('link')
-      var props = objLink[rel]
-      var clone = el.cloneNode(true)
-
-      // Assign for each the props
-      Object.keys(props).map((prop) => {
-        el.setAttribute(prop, props[prop])
-      })
-
-      // If exists element
-      if (el.getAttribute('rel')) {
-        state.before = clone
-        state.after = el
-        diff.push(state)
-        return
-      }
-
-      // If not exists element
-      el.setAttribute('rel', rel)
-      this.getHead().appendChild(el)
-      state.after = el
-      diff.push(state)
-    })
   }
 
   /**
@@ -150,7 +155,8 @@
       },
       destroyed () {
         let head = this.$options.head
-        if (head.undo || typeof head.undo === 'undefined') {
+        if (!head) return
+        if (typeof head.undo === 'undefined' || head.undo) {
           util.undoTitle(diffTitle)
           util.undo(diff)
         }
@@ -159,7 +165,7 @@
     })
   }
 
-  vueHead.version = '0.0.1'
+  vueHead.version = '1.0.0'
 
   // auto install
   if (typeof Vue !== 'undefined') {

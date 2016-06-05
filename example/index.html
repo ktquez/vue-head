@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Using vue-head</title>
+
+  <link rel="canonical" href="http://example.com/">
+  
+</head>
+<body>
+  
+  <div id="app">
+    <header>
+      <a v-link="{ path: '/' }">HOME</a>
+      <nav>
+        <ul>
+          <li>
+            <a v-link="{ path: '/about' }">ABOUT</a>
+          </li>
+          <li>
+            <a v-link="{ path: '/blog' }">BLOG</a>
+          </li>
+          <li>
+            <a v-link="{ path: '/contact' }">CONTACT</a>
+          </li>          
+        </ul>    
+      </nav>
+    </header>
+    <hr>
+    <main class="content">
+      <router-view></router-view>  
+    </main>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.13/vue-router.min.js"></script>
+  <script src="https://cdn.rawgit.com/ktquez/vue-head/master/vue-head.js"></script>
+
+  <script>
+
+  // Component HOME
+  var home = Vue.extend({
+    'template': '<h1>HOME</h1>'
+  })
+
+  // Component ABOUT
+  var about = Vue.extend({
+    'template': '<h1>ABOUT</h1>',
+    data: function () {
+      return {
+        infoPage: {
+          title: 'About me'
+        }
+      }
+    },
+    head: {
+      // To use "this" in the component, it is necessary to return the object through a function
+      title: function () {
+        return {
+          inner: this.infoPage.title,
+          separator: ':)'
+        }
+      },
+      link: {
+        canonical: {
+          href: 'http://example.com/#!/about/'          
+        }
+      }
+    }
+  })
+
+  // Component BLOG
+  var blog = Vue.extend({
+    'template': '<h1>BLOG</h1>',
+    head: {
+      title: {
+        inner: 'Welcome to my Blog',
+      },
+      // To use "this" in the component, it is necessary to return the object through a function
+      link: function() {
+        return {
+          canonical: {
+            href: this.$el.baseURI + '/'
+          }        
+        }
+      }
+    }
+  })
+
+  // Component CONTACT
+  var contact = Vue.extend({
+    'template': '<h1>CONTACT</h1>',
+    head: {
+      title: {
+        inner: 'It will be a pleasure',
+        separator: ' ', // Leave empty separator
+        complement: ' ' // Leave empty complement
+      },
+      link: {
+        canonical: {
+          href: 'http://example.com/#!/contact/'          
+        }
+      }
+    }
+  })
+
+  // CONFIGURATION 
+  Vue.use(vueHead)
+  Vue.use(VueRouter)
+
+  var router = new VueRouter()
+  router.map({
+    '/': {
+      component: home
+    },
+    '/about': {
+      component: about
+    },
+    '/blog': {
+      component: blog
+    },
+    '/contact': {
+      component: contact
+    },
+    '*': {
+      component: home
+    }
+  })
+
+  var App = Vue.extend()
+  router.start(App, '#app')
+
+  </script>
+</body>
+</html>
