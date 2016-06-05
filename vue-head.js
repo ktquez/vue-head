@@ -164,7 +164,7 @@
     })
   }
 
-  VueHead.version = '1.0.2'
+  VueHead.version = '1.0.3'
 
   // auto install
   if (typeof Vue !== 'undefined') {
