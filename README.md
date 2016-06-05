@@ -86,6 +86,8 @@ var myComponent = Vue.extend({
 })
 ```
 
+To learn more possibilities tags in [HEAD](https://github.com/joshbuchea/HEAD)
+
 ## Example with files .vue
 
 ```html
