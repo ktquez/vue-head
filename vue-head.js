@@ -132,7 +132,7 @@
    * @param  {Function} Vue
    * @param  {Object} options
    */
-  function vueHead (Vue, options){
+  function VueHead (Vue, options){
 
     if (installed) return
     installed = true
@@ -165,19 +165,19 @@
     })
   }
 
-  vueHead.version = '1.0.0'
+  VueHead.version = '1.0.0'
 
   // auto install
   if (typeof Vue !== 'undefined') {
-    Vue.use(vueHead)
+    Vue.use(VueHead)
   }
 
   if(typeof exports === 'object' && typeof module === 'object') {
-    module.exports = vueHead
+    module.exports = VueHead
   } else if(typeof define === 'function' && define.amd) {
-    define(function () { return vueHead })
+    define(function () { return VueHead })
   } else if (typeof window !== 'undefined') {
-    window.vueHead = vueHead
+    window.VueHead = VueHead
   }
 
 })()
