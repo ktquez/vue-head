@@ -123,7 +123,6 @@
         diff.push(state)
       })
     }
-
   }
 
   /**
@@ -133,16 +132,16 @@
    * @param  {Object} options
    */
   function VueHead (Vue, options){
-
     if (installed) return
+
     installed = true
 
-    if (options) { 
-      Vue.util.extend(opt, options) 
+    if (options) {
+      Vue.util.extend(opt, options)
     }
 
     Vue.mixin({
-      ready () {
+      ready: function () {
         let self = this
         let head = this.$options.head
         if (!head) return
@@ -153,7 +152,7 @@
           }
         })
       },
-      destroyed () {
+      destroyed: function () {
         let head = this.$options.head
         if (!head) return
         if (typeof head.undo === 'undefined' || head.undo) {
@@ -165,7 +164,7 @@
     })
   }
 
-  VueHead.version = '1.0.1'
+  VueHead.version = '1.0.2'
 
   // auto install
   if (typeof Vue !== 'undefined') {
