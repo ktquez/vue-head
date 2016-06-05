@@ -1,6 +1,6 @@
 {
   "name": "vue-head",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Manipulating the meta information of the head tag, a simple and easy way",
   "main": "vue-head.js",
   "repository": {
