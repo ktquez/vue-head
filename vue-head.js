@@ -36,7 +36,7 @@
      */
     undo: function (states) {
       if (!states.length) return
-      var headElement = this.getHead()
+      var headElement = util.getHead()
       states.map(function (state) {
         ;(state.before) ? headElement.replaceChild(state.before, state.after) : headElement.removeChild(state.after)
       })
@@ -58,6 +58,7 @@
      */
     meta: function (objMeta) {
       if (!objMeta) return
+      var self = this
 
       Object.keys(objMeta).map(function (prop) {
         var meta = objMeta[prop]
@@ -65,7 +66,7 @@
         Object.keys(meta).map(function (value) {
 
           // set state of elements
-          var el = this.getHead().querySelector('meta[' + prop + '="' + value + '"]') || document.createElement('meta')
+          var el = self.getHead().querySelector('meta[' + prop + '="' + value + '"]') || document.createElement('meta')
           var clone = el.cloneNode(true)
           var state = {}
 
@@ -82,7 +83,7 @@
 
           // If not exists element
           el.setAttribute(prop, value)
-          this.getHead().appendChild(el)
+          self.getHead().appendChild(el)
           state.after = el
           diff.push(state)
         })
@@ -96,9 +97,10 @@
      */
     link: function (objLink) {
       if (!objLink) return
+      var self = this
 
       Object.keys(objLink).map(function (rel) {
-        var el = this.getHead().querySelector('link[rel="' + rel + '"]') || document.createElement('link')
+        var el = self.getHead().querySelector('link[rel="' + rel + '"]') || document.createElement('link')
         var props = objLink[rel]
         var clone = el.cloneNode(true)
         var state = {}
@@ -118,7 +120,7 @@
 
         // If not exists element
         el.setAttribute('rel', rel)
-        this.getHead().appendChild(el)
+        self.getHead().appendChild(el)
         state.after = el
         diff.push(state)
       })
