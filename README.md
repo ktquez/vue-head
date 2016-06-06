@@ -25,9 +25,9 @@ npm install vue-head --save
 ```javascript
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import vueHead from 'vue-head'
+import VueHead from 'vue-head'
 
-Vue.use(vueHead)
+Vue.use(VueHead)
 Vue.use(VueRouter)
 ...
 ```
