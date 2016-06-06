@@ -14,6 +14,8 @@ Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
   // Code here
 </script>
 ```
+See how to use with [this example](https://github.com/ktquez/vue-head/blob/master/example/index.html)
+
 
 **With NPM**
 ```shell
@@ -64,7 +66,7 @@ var myComponent = Vue.extend({
         'og:url': 'https://example.com/page.html',
         'og:title': 'Content Title',
         'og:description': 'Description Here',
-        'og:description': 'Description Here'
+        'og:image': 'https://example.com/image.jpg'
       }    
     }
     // Examples of link tags
