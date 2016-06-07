@@ -144,18 +144,18 @@
 
     Vue.mixin({
       ready: function () {
-        let self = this
-        let head = this.$options.head
+        var self = this
+        var head = this.$options.head
         if (!head) return
         Object.keys(head).map(function (key) {
           if (head[key]) {
-            let obj = (typeof head[key] === 'object') ? head[key] : head[key].bind(self)()
+            var obj = (typeof head[key] === 'object') ? head[key] : head[key].bind(self)()
             util[key](obj)
           }
         })
       },
       destroyed: function () {
-        let head = this.$options.head
+        var head = this.$options.head
         if (!head) return
         if (typeof head.undo === 'undefined' || head.undo) {
           util.undoTitle(diffTitle)
@@ -166,7 +166,7 @@
     })
   }
 
-  VueHead.version = '1.0.4'
+  VueHead.version = '1.0.5'
 
   // auto install
   if (typeof Vue !== 'undefined') {
