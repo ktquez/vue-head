@@ -143,25 +143,27 @@
     }
 
     Vue.mixin({
-      ready: function () {
-        var self = this
-        var head = this.$options.head
-        if (!head) return
-        Object.keys(head).map(function (key) {
-          if (head[key]) {
-            var obj = (typeof head[key] === 'object') ? head[key] : head[key].bind(self)()
-            util[key](obj)
+      route: {
+      	activate() {
+          var self = this
+          var head = this.$options.head
+          if (!head) return
+          Object.keys(head).map(function (key) {
+            if (head[key]) {
+              var obj = (typeof head[key] === 'object') ? head[key] : head[key].bind(self)()
+              util[key](obj)
+            }
+          })
+        },
+        deactivate() {
+          var head = this.$options.head
+          if (!head) return
+          if (typeof head.undo === 'undefined' || head.undo) {
+            util.undoTitle(diffTitle)
+            util.undo(diff)
           }
-        })
-      },
-      destroyed: function () {
-        var head = this.$options.head
-        if (!head) return
-        if (typeof head.undo === 'undefined' || head.undo) {
-          util.undoTitle(diffTitle)
-          util.undo(diff)
+          diff = []
         }
-        diff = []
       }
     })
   }
