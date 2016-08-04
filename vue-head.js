@@ -144,7 +144,7 @@
 
     Vue.mixin({
       route: {
-      	activate() {
+      	activate: function() {
           var self = this
           var head = this.$options.head
           if (!head) return
@@ -155,7 +155,7 @@
             }
           })
         },
-        deactivate() {
+        deactivate: function() {
           var head = this.$options.head
           if (!head) return
           if (typeof head.undo === 'undefined' || head.undo) {
