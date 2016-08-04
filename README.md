@@ -3,6 +3,9 @@
 Manipulating the meta information of the head tag, a simple and easy way  
 Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
 
+**Dependencies:**
+ - VueRouter
+
 ## Usage
 **by CDN**
 ```html
