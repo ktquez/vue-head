@@ -1,6 +1,6 @@
 {
   "name": "vue-head",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Manipulating the meta information of the head tag, a simple and easy way",
   "main": "vue-head.js",
   "repository": {
@@ -19,8 +19,5 @@
   "bugs": {
     "url": "https://github.com/ktquez/vue-head/issues"
   },
-  "dependencies" : {
-    "vue-router": "^0.7.13"
-   },
   "homepage": "https://github.com/ktquez/vue-head#readme"
 }

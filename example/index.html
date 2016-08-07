@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Using vue-head</title>
-
-  <link rel="canonical" href="http://example.com/">
   
 </head>
 <body>
@@ -62,11 +60,18 @@
           separator: ':)'
         }
       },
-      link: {
-        canonical: {
-          href: 'http://example.com/#!/about/'          
-        }
-      }
+      meta: [
+        { name: 'description', d: 'About me', id: 'desc' }
+      ],
+      style: [
+        { type: 'text/css', inner: 'body { background-color: #000; color: #fff}' }
+      ],
+      link: [
+        { rel: 'canonical', h: 'http://example.com/#!/about/', id: 'canonical'},
+        { rel: 'icon', href: '/static/assets/favicon-16.png', sizes: '16x16', type: 'image/png' },
+        /* shorthand property */
+        { r: 'icon', h: '/static/assets/favicon-32.png', sz: '32x32', t: 'image/png' }
+      ]
     }
   })
 
@@ -77,13 +82,14 @@
       title: {
         inner: 'Welcome to my Blog',
       },
+      meta: [
+        { name: 'description', d: 'Thank you for visiting my blog', id: 'desc' }
+      ],
       // To use "this" in the component, it is necessary to return the object through a function
       link: function() {
-        return {
-          canonical: {
-            href: this.$el.baseURI + '/'
-          }        
-        }
+        return [
+          { r: 'canonical', href: this.$el.baseURI + '/', id: 'canonical'}
+        ]
       }
     }
   })
@@ -97,11 +103,12 @@
         separator: ' ', // Leave empty separator
         complement: ' ' // Leave empty complement
       },
-      link: {
-        canonical: {
-          href: 'http://example.com/#!/contact/'          
-        }
-      }
+      meta: [
+        { name: 'description', d: 'Happy for your contact', id: 'desc' }
+      ],
+      link: [
+        { rel: 'canonical', h: 'http://example.com/#!/contact/', id: 'canonical'}
+      ]
     }
   })
 

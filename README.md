@@ -3,8 +3,11 @@
 Manipulating the meta information of the head tag, a simple and easy way  
 Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
 
-**Dependencies:**
- - VueRouter
+---
+
+**For syntax of the previous version [click here](https://github.com/ktquez/vue-head/tree/v1.0.5)**
+
+---
 
 ## Usage
 **by CDN**
@@ -35,7 +38,7 @@ Vue.use(VueRouter)
 ...
 ```
 
-## Examples
+## Examples (New syntax)
 ```javascript
 var myComponent = Vue.extend({
   data: function () {
@@ -47,46 +50,46 @@ var myComponent = Vue.extend({
     title: {
       inner: 'It will be a pleasure'
     },
-    meta: {
-      // Basic meta
-      name: {
-        'application-name': 'Name of my application',
-        description: 'A description of the page',
-        // Twitter
-        'twitter:title': 'Content Title',
-        'twitter:description': 'Content description less than 200 characters',
-        'twitter:image': 'https://example.com/image.jpg'
-      },
+    // Meta tags
+    meta: [
+      { name: 'application-name', content: 'Name of my application' },
+      { name: 'description', content: 'A description of the page', id: 'desc' } // id to replace intead of create element
+      // ...
+      // Twitter
+      { name: 'twitter:title', content: 'Content Title' },
+      // with shorthand
+      { n: 'twitter:description', c: 'Content description less than 200 characters'}
+      // ...
       // Google+ / Schema.org
-      itemprop: {
-        name: 'Content Title',
-        description: 'Content description less than 200 characters',
-        image: 'https://example.com/image.jpg'
-      },
+      { itemprop: 'name', content: 'Content Title' },
+      { itemprop: 'description', content: 'Content Title' },
+      // ...
       // Facebook / Open Graph
-      property: {
-        'fb:app_id': 123456789,
-        'og:url': 'https://example.com/page.html',
-        'og:title': 'Content Title',
-        'og:description': 'Description Here',
-        'og:image': 'https://example.com/image.jpg'
-      }    
-    }
-    // Examples of link tags
-    link: {
-      canonical: {
-        href: 'http://example.com/#!/contact/'          
-      },
-      author: {
-        href: 'humans.txt'
-      },
-      stylesheet: {
-        href: 'https://example.com/styles.css'
-      }
-      import: {
-        href: 'component.html'
-      }
-    }
+      { property: 'fb:app_id', content: '123456789' },
+      { property: 'og:title', content: 'Content Title' },
+      // with shorthand
+      { p: 'og:image', c: 'https://example.com/image.jpg' },
+      // ...
+    ],
+    // link tags
+    link: [
+      { rel: 'canonical', href: 'http://example.com/#!/contact/', id: 'canonical' },
+      { rel: 'author', href: 'author', undo: false }, // undo property - not to remove the element
+      { rel: 'icon', href: require('./path/to/icon-16.png'), sizes: '16x16', type: 'image/png' }, 
+      // with shorthand
+      { r: 'icon', h: 'path/to/icon-32.png', sz: '32x32', t: 'image/png' }
+      // ...
+    ],
+    script: [
+      { type: 'text/javascript', src: 'cdn/to/script.js', async: true, body: true} // Insert in body
+      // with shorthand
+      { t: 'application/ld+json', i: '{ "@context": "http://schema.org" }' }
+      // ...
+    ],
+    style: [
+      { type: 'text/css', inner: 'body { background-color: #000; color: #fff}', undo: false }
+      // ...
+    ]
   }
 })
 ```
@@ -109,12 +112,16 @@ export default {
   },
   // Usage with context the component
   head: {
+    // To use "this" in the component, it is necessary to return the object through a function
     title: function () {
       return {
-        // To use "this" in the component, it is necessary to return the object through a function
         inner: this.title
       }
-    }
+    },
+    meta: [
+      { name: 'description', content: 'My description', id: 'desc' }
+    ]
+  }
     ...
   }
 }
@@ -124,8 +131,79 @@ export default {
   /* Code here */
 </style>
 ```
-
 For more questions, [check this example](https://github.com/ktquez/vue-head/blob/master/example/index.html)
+
+## Using `this`
+For using values with `this`, it is necessary to return the object through a function
+```javascript
+data: {
+  myData: 'My description'
+},
+// omited
+meta: function () {
+  return [
+    { name: 'description', content: this.myData }
+  ]
+}
+
+``` 
+
+## Undo elements
+All created tags will be removed as you leave the component, but you may want it to be not broken and remain in the DOM.   
+So you should set `undo: false`
+```javascript
+style: [
+  { type: 'text/css', inner: 'body { background-color: #000; color: #fff}', undo: false }
+]
+```
+
+## Replace content the elements
+There are some tags that are unique and that only need to update the content, such as meta tags `name="description"` or `rel="canonical"`.  
+Therefore, it is necessary to define a `id`, so that the element is found and is made the update correctly, avoiding duplicates tags.  
+```javascript
+meta: [
+  { name: 'description', content: 'A description of the page', id: 'desc' }
+]
+```
+
+## Event emitted
+At some point you may want to do something after the DOM is complete with the changes, to this the vue-head emits through the key `okHead`.  
+With this, you can hear through the `events` option of your instance component.
+```javascript
+// omited
+events: {
+  okHead: function () {
+    console.log('Elements ok')
+  }
+},
+```
+
+## Keep alive
+Supported only in Vue next >2.0.*, Because it uses the new hooks activated and deactivated.  
+*Obs: In version <1.0. * Using making prompt to maintain the element in the document.* 
+
+
+## Shorthand property
+
+property        | shorthand     | used tags
+--------------- | ------------- | ------------
+charset         | `ch`          | `meta`
+target          | `tg`          | `base` 
+name            | `n`           | `meta`
+http-equiv      | `he`          | `meta`
+itemprop        | `ip`          | `meta`
+content         | `c`           | `meta`
+property        | `p`           | `meta`
+rel             | `r`           | `link`
+href            | `h`           | `link`
+sizes           | `sz`          | `link`
+type            | `t`           | `link` `style`  `script`
+scheme          | `sc`          | `script`
+src             | `s`           | `script`
+async           | `a`           | `script`
+defer           | `d`           | `script`
+inner           | `i`           | `script` `style` 
+
 
 ## Contributing
 - Check the open issues or open a new issue to start a discussion around your feature idea or the bug you found.
