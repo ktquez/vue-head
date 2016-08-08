@@ -173,7 +173,7 @@ With this, you can hear through the `events` option of your instance component.
 // omited
 events: {
   okHead: function () {
-    console.log('Elements ok')
+    // Do something
   }
 },
 ```
