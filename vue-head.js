@@ -182,10 +182,10 @@
     // v2
     if (Vue.version.match(/[2].(.)+/g)) {
       Vue.mixin({
-        activated: function () {
+        mounted: function () {
           init.bind(this)()
         },
-        deactivated: function () {
+        destroyed: function () {
           destroy.bind(this)()
         }        
       })

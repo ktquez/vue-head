@@ -179,10 +179,10 @@
     // v2
     if (Vue.version.match(/[2].(.)+/g)) {
       Vue.mixin({
-        activated () {
+        mounted () {
           init.bind(this)()
         },
-        deactivated () {
+        destroyed () {
           destroy(this.$options.head)
         }        
       })
