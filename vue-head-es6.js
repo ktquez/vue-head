@@ -4,7 +4,7 @@
   'use strict'
 
   const opt = {
-    cpl: document.title,
+    complement: document.title,
     separator: '|'
   }
 
@@ -94,8 +94,8 @@
      */
     title (val) {
       if (!val) return
-      diffTitle.before = opt.cpl
-      document.title = `${val.inner} ${val.separator || opt.separator} ${val.cpl || opt.cpl}`
+      diffTitle.before = opt.complement
+      document.title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
     },
 
     /**

@@ -133,6 +133,22 @@ export default {
 ```
 For more questions, [check this example](https://github.com/ktquez/vue-head/blob/master/example/index.html)
 
+## Custom title
+You can customize the page title with tab and complement, just add the properties `separator` and `complement` object in title
+Separator by default uses the pipe character `|` and complement by default uses the title of the html document  
+
+```javascript
+head: {
+  title: {
+    inner: 'My title',
+    separator: '-',
+    complement: 'My Complement'
+  },
+  //omited
+}
+```
+*If not please complement defines an empty value*
+
 ## Using `this`
 For using values with `this`, it is necessary to return the object through a function
 ```javascript
