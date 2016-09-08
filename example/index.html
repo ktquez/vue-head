@@ -80,15 +80,18 @@
   var blog = Vue.extend({
     data: function () {
       return {
-        title: 'My initial title',
-        description: '',
-        keywords: ''
+        params: {
+          title: 'website name',
+          description: 'website description',
+          image: false,
+          app: 'app name',          
+        }
       }
     },
     ready: function(){
       var self = this
       window.setTimeout(function () {
-        self.title = 'My async title'
+        self.params.title = 'new website name'
         self.$emit('updateHead')
       }, 3000)
     },
@@ -96,18 +99,18 @@
     head: {
       title: function () {
         return {
-          inner: this.title
+          inner: this.params.title,
+          separator: ' ',
+          complement: ' '
         }
       },
-      meta: function (){
+      meta:  function () {
         return [
-          { name: 'description', c: this.description, id: 'desc' }
-        ]
-      },
-      // To use "this" in the component, it is necessary to return the object through a function
-      link: function() {
-        return [
-          { r: 'canonical', href: this.$el.baseURI + '/', id: 'canonical'}
+          { name: 'application-name', content: this.params.app },
+          { name: 'description', content: this.params.description },
+          { name: 'twitter:title', content: this.params.title },
+          { n: 'twitter:description', c: this.params.description},
+          { p: 'og:image', c: this.params.image },
         ]
       }
     }

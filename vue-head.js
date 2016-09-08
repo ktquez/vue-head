@@ -104,6 +104,7 @@
      * Update Element
      */
     update: function () {
+      if (!els.length) return
       els.forEach(function(el, key) {
         if (!diffEls[key].isEqualNode(el)) {
           el.parentElement.replaceChild(diffEls[key], els[key])

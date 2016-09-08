@@ -100,6 +100,7 @@
     },
 
     update () {
+      if (!els.length) return
       els.forEach((el, key) => {
         if (!diffEls[key].isEqualNode(el)) {
           el.parentElement.replaceChild(diffEls[key], els[key])
