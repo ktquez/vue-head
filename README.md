@@ -220,7 +220,6 @@ Supported only in Vue next >2.0.*, Because it uses the new hooks activated and d
 *Obs: In version <1.0. * Using making prompt to maintain the element in the document.* 
 
 
->>>>>>> develop
 ## Shorthand property
 
 property        | shorthand     | used tags
