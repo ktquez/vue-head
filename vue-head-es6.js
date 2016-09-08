@@ -98,33 +98,52 @@
       document.title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
     },
 
+    update () {
+      els.forEach((el, key) => {
+        if (!diffEls[key].isEqualNode(el)) {
+          el.parentElement.replaceChild(diffEls[key], els[key])
+          els.splice(key, 1, diffEls[key])
+          return
+        }
+      })
+      diffEls = []
+    },
+
+    add (obj, el, parent) {
+      parent.appendChild(el)
+      // Fixed elements that do not suffer removal
+      if (obj.undo !== undefined && !obj.undo) return
+      // Elements which are removed
+      els.push(el)
+    },
+
     /**
      * Handle of create elements
      * @type {Function}
      * @param  {Array} arr
      * @param  {String} tag   - style, link, meta, script, base
      * @param  {String} place - Default 'head'
+     * @param  {Boolean} update
      */
-    handle (arr, tag, place) {
+    handle (arr, tag, place, update) {
       if (!arr) return
       arr.map(obj => {
-        let parent = this.getPlace(place)
+        let parent = (obj.body) ? this.getPlace('body') : this.getPlace(place)
         let el = document.getElementById(obj.id) || document.createElement(tag)
         // Elements that will substitute data
-        if (el.hasAttribute('id')) {
+        if (el.hasAttribute('id') || obj.id) {
           this.prepareElement(obj, el)
           return
         }
         // Other elements
         this.prepareElement(obj, el)
-        // For script tags in body
-        if (obj.body) parent = this.getPlace('body')
+        // Updated elements
+        if (update) {
+          diffEls.push(el)
+          return
+        }
         // Add elements in Node
-        parent.appendChild(el)
-        // Fixed elements that do not suffer removal
-        if (obj.undo !== undefined && !obj.undo) return
-        // Elements which are removed
-        els.push(el)
+        this.add(obj, el, parent)
       })
     }
   }
@@ -143,7 +162,7 @@
       Vue.util.extend(opt, options)
     }
 
-    function init () {
+    function init (update) {
       let head = this.$options.head
       if (!head) return
       Object.keys(head).map(key => {
@@ -154,7 +173,7 @@
           util[key](obj)
           return
         }
-        util.handle(obj, key, 'head')
+        util.handle(obj, key, 'head', update)
       })
       this.$emit('okHead')
     }
@@ -173,7 +192,13 @@
         },
         destroyed () {
           destroy(this.$options.head)
-        }        
+        },
+        events: {
+          updateHead () {
+            init.bind(this)(true)
+            util.update()
+          }
+        }
       })
     }
     // v2
@@ -184,12 +209,18 @@
         },
         destroyed () {
           destroy(this.$options.head)
-        }        
+        },
+        events: {
+          updateHead () {
+            init.bind(this)(true)
+            util.update()
+          }
+        }       
       })
     }
   }
 
-  VueHead.version = '2.0.0'
+  VueHead.version = '2.0.3'
 
   // auto install
   if (typeof Vue !== 'undefined') {

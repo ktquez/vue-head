@@ -194,6 +194,35 @@ events: {
 },
 ```
 
+<<<<<<< HEAD
+=======
+## Update elements with asynchronous data or after page loaded
+Keep the data tags updated through an update of the elements that have changed data, which are the reactive data of your component.
+It is not automatic if you want to upgrade, simply issue the event `updateHead` soon after changing your data.
+
+For example:  
+```javascript
+// omited
+methods: {
+  getAsyncData: function () {
+    var self = this
+    window.setTimeout(function () {
+      self.title = 'My async title'
+      self.$emit('updateHead')
+    }, 3000)
+  }
+},
+```
+
+***Note: I recommend that you use the vueRouter to request the data from the tags and build the head tags with synchronous data, updating meta tags in real time only have to utilizade is a business rule application.***
+
+
+## Keep alive
+Supported only in Vue next >2.0.*, Because it uses the new hooks activated and deactivated.  
+*Obs: In version <1.0. * Using making prompt to maintain the element in the document.* 
+
+
+>>>>>>> develop
 ## Shorthand property
 
 property        | shorthand     | used tags

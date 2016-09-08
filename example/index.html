@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Using vue-head</title>
-  
+  <meta name="description" id="desc" content="My initial description">
+  <link rel="canonical" id="canonical" href="http://myblog.com/">
 </head>
 <body>
   
@@ -61,7 +62,7 @@
         }
       },
       meta: [
-        { name: 'description', d: 'About me', id: 'desc' }
+        { name: 'description', c: 'About me', id: 'desc' }
       ],
       style: [
         { type: 'text/css', inner: 'body { background-color: #000; color: #fff}' }
@@ -77,14 +78,32 @@
 
   // Component BLOG
   var blog = Vue.extend({
+    data: function () {
+      return {
+        title: 'My initial title',
+        description: '',
+        keywords: ''
+      }
+    },
+    ready: function(){
+      var self = this
+      window.setTimeout(function () {
+        self.title = 'My async title'
+        self.$emit('updateHead')
+      }, 3000)
+    },
     'template': '<h1>BLOG</h1>',
     head: {
-      title: {
-        inner: 'Welcome to my Blog',
+      title: function () {
+        return {
+          inner: this.title
+        }
       },
-      meta: [
-        { name: 'description', d: 'Thank you for visiting my blog', id: 'desc' }
-      ],
+      meta: function (){
+        return [
+          { name: 'description', c: this.description, id: 'desc' }
+        ]
+      },
       // To use "this" in the component, it is necessary to return the object through a function
       link: function() {
         return [
@@ -104,7 +123,7 @@
         complement: ' ' // Leave empty complement
       },
       meta: [
-        { name: 'description', d: 'Happy for your contact', id: 'desc' }
+        { name: 'description', c: 'Happy for your contact', id: 'desc' }
       ],
       link: [
         { rel: 'canonical', h: 'http://example.com/#!/contact/', id: 'canonical'}
