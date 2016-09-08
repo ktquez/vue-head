@@ -106,7 +106,7 @@
     update: function () {
       if (!els.length) return
       els.forEach(function(el, key) {
-        if (!diffEls[key].isEqualNode(el)) {
+        if (diffEls[key] && !diffEls[key].isEqualNode(el)) {
           el.parentElement.replaceChild(diffEls[key], els[key])
           els.splice(key, 1, diffEls[key])
           return
@@ -241,7 +241,7 @@
     }
   }
 
-  VueHead.version = '2.0.3'
+  VueHead.version = '2.0.6'
 
   // auto install
   if (typeof Vue !== 'undefined') {
