@@ -10,6 +10,7 @@
 
   var diffTitle = {}
   var els = []
+  var diffEls = []
   var installed = false
 
   var util = {
@@ -100,33 +101,61 @@
     },
 
     /**
+     * Update Element
+     */
+    update: function () {
+      els.forEach(function(el, key) {
+        if (!diffEls[key].isEqualNode(el)) {
+          el.parentElement.replaceChild(diffEls[key], els[key])
+          els.splice(key, 1, diffEls[key])
+          return
+        }
+      })
+      diffEls = []
+    },
+
+    /**
+     * Add Elements
+     * @param {Object} obj
+     * @param {HTMLElement} el
+     * @param {HTMLElement} parent
+     */
+    add: function (obj, el, parent) {
+      parent.appendChild(el)
+      // Fixed elements that do not suffer removal
+      if (obj.undo !== undefined && !obj.undo) return
+      // Elements which are removed
+      els.push(el)
+    },
+
+    /**
      * Handle of create elements
      * @type {Function}
      * @param  {Array} arr
      * @param  {String} tag   - style, link, meta, script, base
      * @param  {String} place - Default 'head'
+     * @param  {Boolean} update
      */
-    handle: function (arr, tag, place) {
+    handle: function (arr, tag, place, update) {
       var self = this
       if (!arr) return
       arr.map(function (obj) {
-        var parent = self.getPlace(place)
+        var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
         var el = document.getElementById(obj.id) || document.createElement(tag)
         // Elements that will substitute data
-        if (el.hasAttribute('id')) {
+        if (el.hasAttribute('id') || obj.id) {
           self.prepareElement(obj, el)
           return
         }
         // Other elements
-        self.prepareElement(obj, el)
-        // For script tags in body
-        if (obj.body) parent = self.getPlace('body')
-        // Add elements in Node
-        parent.appendChild(el)
-        // Fixed elements that do not suffer removal
-        if (obj.undo !== undefined && !obj.undo) return
-        // Elements which are removed
-        els.push(el)
+        el = self.prepareElement(obj, el)
+        // Updated elements
+        if (update) {
+          diffEls.push(el)
+          return
+        }
+        // Append Elements
+        self.add(obj, el, parent)
       })
     }
   }
@@ -145,7 +174,11 @@
       Vue.util.extend(opt, options)
     }
 
-    function init () {
+    /**
+     * Initializes and updates the elements in the head
+     * @param  {Boolean} update
+     */
+    function init (update) {
       var self = this
       var head = self.$options.head
       if (!head) return
@@ -157,11 +190,14 @@
           util[key](obj)
           return
         }
-        util.handle(obj, key, 'head')
+        util.handle(obj, key, 'head', update)
       })
       self.$emit('okHead')
     }
 
+    /**
+     * Remove the meta tags elements in the head
+     */
     function destroy () {
       if (!this.$options.head) return
       util.undoTitle(diffTitle)
@@ -176,7 +212,13 @@
         },
         destroyed: function () {
           destroy.bind(this)()
-        }        
+        },
+        events: {
+          updateHead: function () {
+            init.bind(this)(true)
+            util.update()
+          }
+        }   
       })
     }
     // v2
@@ -187,12 +229,18 @@
         },
         destroyed: function () {
           destroy.bind(this)()
-        }        
+        },
+        events: {
+          updateHead: function () {
+            init.bind(this)(true)
+            util.update()
+          }
+        }       
       })
     }
   }
 
-  VueHead.version = '2.0.0'
+  VueHead.version = '2.0.3'
 
   // auto install
   if (typeof Vue !== 'undefined') {
