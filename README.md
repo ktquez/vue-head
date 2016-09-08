@@ -212,7 +212,7 @@ methods: {
 },
 ```
 
-***Note: I recommend that you use the vueRouter to request the data from the tags and build the head tags with synchronous data, updating meta tags in real time only have to utilizade is a business rule application.***
+***Note: I recommend you use the vueRouter to request the data from the tags and build the header tags with synchronous data, updating real-time meta tags only have to use the business rules of your application.***
 
 
 ## Keep alive
