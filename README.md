@@ -194,11 +194,6 @@ events: {
 },
 ```
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> master
 ## Update elements with asynchronous data or after page loaded
 Keep the data tags updated through an update of the elements that have changed data, which are the reactive data of your component.
 It is not automatic if you want to upgrade, simply issue the event `updateHead` soon after changing your data.
