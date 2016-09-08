@@ -10,6 +10,7 @@
 
   const diffTitle = {}
   let els = []
+  let diffEls = []
   let installed = false
 
   const util = {

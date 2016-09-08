@@ -194,6 +194,11 @@ events: {
 },
 ```
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> master
 ## Update elements with asynchronous data or after page loaded
 Keep the data tags updated through an update of the elements that have changed data, which are the reactive data of your component.
 It is not automatic if you want to upgrade, simply issue the event `updateHead` soon after changing your data.
@@ -220,6 +225,7 @@ Supported only in Vue next >2.0.*, Because it uses the new hooks activated and d
 *Obs: In version <1.0. * Using making prompt to maintain the element in the document.* 
 
 
+>>>>>>> develop
 ## Shorthand property
 
 property        | shorthand     | used tags
@@ -241,6 +247,9 @@ async           | `a`           | `script`
 defer           | `d`           | `script`
 inner           | `i`           | `script` `style` 
 
+## Support 
+- Vue.js 2.0.0-rc.*
+- Vue.js 1.0.*
 
 ## Contributing
 - Check the open issues or open a new issue to start a discussion around your feature idea or the bug you found.
