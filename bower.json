@@ -1,0 +1,27 @@
+{
+  "name": "vue-head",
+  "description": "Manipulating the meta information of the head tag, a simple and easy way",
+  "main": [
+    "vue-head.js"
+    ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "keywords": [
+    "head",
+    "metatag",
+    "SEO",
+    "vue",
+    "google"
+  ],
+  "authors": [
+    "Alan Albuquerque - ktquez"
+  ],
+   "license": "MIT",
+   "homepage": "https://github.com/ktquez/vue-head#readme",
+   "repository": {
+     "type": "git",
+     "url": "git://github.com/ktquez/vue-head.git"
+   }
+}
