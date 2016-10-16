@@ -206,18 +206,18 @@
     // v2
     if (Vue.version.match(/[2].(.)+/g)) {
       Vue.mixin({
+        created () {
+          this.$on('updateHead', () => {
+            init.bind(this)(true)
+            util.update()
+          })
+        },
         mounted () {
           init.bind(this)()
         },
-        destroyed () {
+        beforeDestroy () {
           destroy(this.$options.head)
-        },
-        events: {
-          updateHead () {
-            init.bind(this)(true)
-            util.update()
-          }
-        }       
+        }
       })
     }
   }
