@@ -4,7 +4,7 @@
   'use strict'
 
   var opt = {
-    complement: document.title,
+    complement: window.document.title,
     separator: '|'
   }
 
@@ -43,17 +43,17 @@
      * @return {Object}
      */
     getPlace: function (place) {
-      return document.getElementsByTagName(place)[0]
+      return window.document.getElementsByTagName(place)[0]
     },
 
     /**
-     * Undo the document title for previous state
+     * Undo the window.document title for previous state
      * @type {Function}
      * @param  {Object} state 
      */
     undoTitle: function (state) {
       if (!state.before) return
-      document.title = state.before
+      window.document.title = state.before
     },
 
     /**
@@ -90,14 +90,14 @@
     },
 
     /**
-     * Change document title
+     * Change window.document title
      * @type {Function}
      * @param  {Object} obj
      */
     title: function (obj) {
       if (!obj) return
       diffTitle.before = opt.complement
-      document.title = obj.inner + ' ' + (obj.separator || opt.separator) + ' ' +  (obj.complement || opt.complement)
+      window.document.title = obj.inner + ' ' + (obj.separator || opt.separator) + ' ' +  (obj.complement || opt.complement)
     },
 
     /**
@@ -142,7 +142,7 @@
       if (!arr) return
       arr.map(function (obj) {
         var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
-        var el = document.getElementById(obj.id) || document.createElement(tag)
+        var el = window.document.getElementById(obj.id) || window.document.createElement(tag)
         // Elements that will substitute data
         if (el.hasAttribute('id') || obj.id) {
           self.prepareElement(obj, el)

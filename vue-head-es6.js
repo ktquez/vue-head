@@ -4,7 +4,7 @@
   'use strict'
 
   const opt = {
-    complement: document.title,
+    complement: window.document.title,
     separator: '|'
   }
 
@@ -43,17 +43,17 @@
      * @return {Object}
      */
     getPlace (place) {
-      return document.getElementsByTagName(place)[0]
+      return window.document.getElementsByTagName(place)[0]
     },
 
     /**
-     * Undo the document title for previous state
+     * Undo the window.document title for previous state
      * @type {Function}
      * @param  {Object} state 
      */
     undoTitle (state) {
       if (!state.before) return
-      document.title = state.before
+      window.document.title = state.before
     },
 
     /**
@@ -89,14 +89,14 @@
     },
 
     /**
-     * Change document title
+     * Change window.document title
      * @type {Function}
      * @param  {Object} val
      */
     title (val) {
       if (!val) return
       diffTitle.before = opt.complement
-      document.title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
+      window.document.title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
     },
 
     update () {
@@ -131,7 +131,7 @@
       if (!arr) return
       arr.map(obj => {
         let parent = (obj.body) ? this.getPlace('body') : this.getPlace(place)
-        let el = document.getElementById(obj.id) || document.createElement(tag)
+        let el = window.document.getElementById(obj.id) || window.document.createElement(tag)
         // Elements that will substitute data
         if (el.hasAttribute('id') || obj.id) {
           this.prepareElement(obj, el)
