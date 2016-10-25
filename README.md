@@ -13,8 +13,8 @@ Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
 **by CDN**
 ```html
 ...
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.13/vue-router.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/*version*/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/*version*/vue-router.min.js"></script>
 <script src="https://cdn.rawgit.com/ktquez/vue-head/master/vue-head.js"></script>
 <script>
   // Code here
@@ -242,7 +242,7 @@ defer           | `d`           | `script`
 inner           | `i`           | `script` `style` 
 
 ## Support 
-- Vue.js 2.0.0-rc.*
+- Vue.js 2.0.*
 - Vue.js 1.0.*
 
 ## Contributing
