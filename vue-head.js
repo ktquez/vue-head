@@ -225,23 +225,23 @@
     // v2
     if (Vue.version.match(/[2].(.)+/g)) {
       Vue.mixin({
+        created: function () {
+          this.$on('updateHead', function () {
+            init.bind(this)(true)
+            util.update()
+          })
+        },
         mounted: function () {
           init.bind(this)()
         },
-        destroyed: function () {
-          destroy.bind(this)()
-        },
-        events: {
-          updateHead: function () {
-            init.bind(this)(true)
-            util.update()
-          }
-        }       
+        beforeDestroy: function () {
+          destroy(this.$options.head)
+        }
       })
     }
   }
 
-  VueHead.version = '2.0.6'
+  VueHead.version = '2.0.8'
 
   // auto install
   if (typeof Vue !== 'undefined') {
