@@ -236,13 +236,13 @@
           init.bind(this)()
         },
         beforeDestroy: function () {
-          destroy(this.$options.head)
+          destroy.bind(this)()
         }
       })
     }
   }
 
-  VueHead.version = '2.0.9'
+  VueHead.version = '2.0.10'
 
   // auto install
   if (typeof Vue !== 'undefined') {

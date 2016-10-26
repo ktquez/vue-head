@@ -5,42 +5,49 @@
   <title>Using vue-head</title>
   <meta name="description" id="desc" content="My initial description">
   <link rel="canonical" id="canonical" href="http://myblog.com/">
+
+  <style>
+    .item {
+      display: inline;
+      margin-right: 8px;
+    }
+  </style>
 </head>
 <body>
   
   <div id="app">
     <header>
-      <a v-link="{ path: '/' }">HOME</a>
+      <router-link :to="{name: 'example'}">HOME</router-link>
       <nav>
         <ul>
-          <li>
-            <a v-link="{ path: '/about' }">ABOUT</a>
+          <li class="item">
+            <router-link :to="{name: 'example.about'}">ABOUT</router-link>
           </li>
-          <li>
-            <a v-link="{ path: '/blog' }">BLOG</a>
+          <li class="item">
+            <router-link :to="{name: 'example.blog'}">BLOG</router-link>
           </li>
-          <li>
-            <a v-link="{ path: '/contact' }">CONTACT</a>
+          <li class="item">
+            <router-link :to="{name: 'example.contact'}">CONTACT</router-link>
           </li>          
         </ul>    
       </nav>
     </header>
     <hr>
     <main class="content">
-      <router-view></router-view>  
+       <router-view></router-view> 
     </main>
 
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.13/vue-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.1/vue-router.min.js"></script>
   <script src="../vue-head.js"></script>
 
   <script>
 
   // Component HOME
   var home = Vue.extend({
-    'template': '<h1>HOME</h1>'
+    'template': '<router-view></router-view> '
   })
 
   // Component ABOUT
@@ -138,27 +145,41 @@
   Vue.use(VueHead)
   Vue.use(VueRouter)
 
-  var router = new VueRouter()
-  router.map({
-    '/': {
-      component: home
-    },
-    '/about': {
-      component: about
-    },
-    '/blog': {
-      component: blog
-    },
-    '/contact': {
-      component: contact
-    },
-    '*': {
-      component: home
-    }
+  var router = new VueRouter({
+    mode: 'history',
+    routes: [
+      {
+        path: '/example',
+        name: 'example',
+        component: home,
+        children: [
+          {
+            path: 'about',
+            name: 'example.about',
+            component: about
+          },
+          {
+            path: 'blog',
+            name: 'example.blog',
+            component: blog
+          },
+          {
+            path: 'contact',
+            name: 'example.contact',
+            component: contact
+          }
+        ]
+      },
+      {
+        path: '*',
+        component: home
+      }
+    ]
   })
 
-  var App = Vue.extend()
-  router.start(App, '#app')
+  var App = new Vue({
+    router: router
+  }).$mount('#app')
 
   </script>
 </body>
