@@ -226,8 +226,9 @@
     if (Vue.version.match(/[2].(.)+/g)) {
       Vue.mixin({
         created: function () {
-          this.$on('updateHead', function () {
-            init.bind(this)(true)
+          var self = this
+          self.$on('updateHead', function () {
+            init.bind(self)(true)
             util.update()
           })
         },
@@ -241,7 +242,7 @@
     }
   }
 
-  VueHead.version = '2.0.8'
+  VueHead.version = '2.0.9'
 
   // auto install
   if (typeof Vue !== 'undefined') {
