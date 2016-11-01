@@ -182,7 +182,8 @@ meta: [
 ]
 ```
 
-## Event emitted
+## Event emitted 
+### Vue 1.*
 At some point you may want to do something after the DOM is complete with the changes, to this the vue-head emits through the key `okHead`.  
 With this, you can hear through the `events` option of your instance component.
 ```javascript
@@ -192,6 +193,14 @@ events: {
     // Do something
   }
 },
+```
+### Vue 2.*
+```javascript
+created: function () {
+  this.$on('okHead', function () {
+    // Do Something
+  });
+}
 ```
 
 ## Update elements with asynchronous data or after page loaded
