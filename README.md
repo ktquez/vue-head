@@ -149,6 +149,17 @@ head: {
 ```
 *If not please complement defines an empty value*
 
+## Default custom title
+If you'd like to set default custom title options on every component you can pass options to VueHead when you're registering it for Vue, just like in example below.
+```javascript
+const VueHead = require('vue-head')
+
+Vue.use(VueHead, {
+  separator: '-',
+  complement: 'My Complement'
+}
+```
+
 ## Using `this`
 For using values with `this`, it is necessary to return the object through a function
 ```javascript
