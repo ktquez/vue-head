@@ -157,7 +157,7 @@ const VueHead = require('vue-head')
 Vue.use(VueHead, {
   separator: '-',
   complement: 'My Complement'
-}
+})
 ```
 
 ## Using `this`
