@@ -97,7 +97,9 @@
     title: function (obj) {
       if (!obj) return
       diffTitle.before = opt.complement
-      window.document.title = obj.inner + ' ' + (obj.separator || opt.separator) + ' ' +  (obj.complement || opt.complement)
+      var title = obj.inner + ' ' + (obj.separator || opt.separator) +
+        ' ' +  (obj.complement || opt.complement)
+      window.document.title = title.trim()
     },
 
     /**
