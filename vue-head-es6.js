@@ -223,7 +223,7 @@
     }
   }
 
-  VueHead.version = '2.0.10'
+  VueHead.version = '2.0.11'
 
   // auto install
   if (typeof Vue !== 'undefined') {
