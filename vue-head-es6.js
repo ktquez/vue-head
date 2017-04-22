@@ -96,7 +96,8 @@
     title (val) {
       if (!val) return
       diffTitle.before = opt.complement
-      window.document.title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
+      let title = `${val.inner} ${val.separator || opt.separator} ${val.complement || opt.complement}`
+      window.document.title = title.trim()
     },
 
     update () {
