@@ -183,7 +183,7 @@
      */
     function init (update) {
       var self = this
-      var head = self.$options.head
+      var head = (typeof self.$options.head === 'function') ? self.$options.head.bind(self)() : self.$options.head
       if (!head) return
       Object.keys(head).map(function (key) {
         var prop = head[key]

@@ -166,7 +166,7 @@
     }
 
     function init (update) {
-      let head = this.$options.head
+      let head = (typeof this.$options.head === 'function') ? this.$options.head.bind(this)() : this.$options.head
       if (!head) return
       Object.keys(head).map(key => {
         let prop = head[key]

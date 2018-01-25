@@ -175,6 +175,8 @@ meta: function () {
 
 ``` 
 
+The whole `head` option can be a function.
+
 ## Undo elements
 All created tags will be removed as you leave the component, but you may want it to be not broken and remain in the DOM.   
 So you should set `undo: false`

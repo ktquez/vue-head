@@ -13,8 +13,8 @@ describe('cient#VueHead', function () {
   it('should render title success', function () {
     const app = new Vue({
       render: h => h('div', { attrs: {id: 'app'} }),
-      head: {
-        title: {inner: 'test'}
+      head: () => {
+        return {title: {inner: 'test'}}
       }
     })
 
