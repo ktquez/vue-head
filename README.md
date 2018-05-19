@@ -1,5 +1,7 @@
 # vue-head
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ktquez/vue-head.svg)](https://greenkeeper.io/)
+
 Manipulating the meta information of the head tag, a simple and easy way  
 Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
 
