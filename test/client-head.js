@@ -27,13 +27,14 @@ describe('cient#VueHead', function () {
       render: h => h('div', { attrs: {id: 'app'} }),
       head: {
         meta: [
-          {name: 'description', content: 'A description of the page'}
+          {name: 'description', content: 'A description of the page', id: 'desc' }
         ]
       }
     })
 
     app.$mount()
     expect(getMetaByName('description').getAttribute('content')).toBe('A description of the page')
+    expect(getMetaByName('description').getAttribute('id')).toBe('desc')
   })
 
   it('should inject style success', function () {
