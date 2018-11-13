@@ -49,7 +49,7 @@
     /**
      * Undo the window.document title for previous state
      * @type {Function}
-     * @param  {Object} state 
+     * @param  {Object} state
      */
     undoTitle: function (state) {
       if (!state.before) return
@@ -146,7 +146,7 @@
         var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
         var el = window.document.getElementById(obj.id) || window.document.createElement(tag)
         // Elements that will substitute data
-        if (el.hasAttribute('id') || obj.id) {
+        if (el.hasAttribute('id')) {
           self.prepareElement(obj, el)
           return
         }
@@ -221,7 +221,7 @@
             init.bind(this)(true)
             util.update()
           }
-        }   
+        }
       })
     }
     // v2
