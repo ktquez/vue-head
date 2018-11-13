@@ -49,7 +49,7 @@
     /**
      * Undo the window.document title for previous state
      * @type {Function}
-     * @param  {Object} state 
+     * @param  {Object} state
      */
     undoTitle (state) {
       if (!state.before) return
@@ -134,7 +134,7 @@
         let parent = (obj.body) ? this.getPlace('body') : this.getPlace(place)
         let el = window.document.getElementById(obj.id) || window.document.createElement(tag)
         // Elements that will substitute data
-        if (el.hasAttribute('id') || obj.id) {
+        if (el.hasAttribute('id')) {
           this.prepareElement(obj, el)
           return
         }
