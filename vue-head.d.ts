@@ -6,7 +6,7 @@ interface TitleOptions {
   separator?: string;
   complement?: string;
 }
-interface IElement extends Object {
+interface ElementOptions extends Object {
   /** Shorthand of `charset` */
   ch?: string;
   charset?: string;
@@ -47,8 +47,8 @@ interface IElement extends Object {
   s?: string;
   src?: string;
   /** Shorthand of `async` */
-  a?: string;
-  async?: string;
+  a?: boolean;
+  async?: boolean;
   /** Shorthand of `defer` */
   d?: string;
   defer?: string;
@@ -65,15 +65,19 @@ interface IElement extends Object {
    * https://github.com/ktquez/vue-head#replace-content-the-elements
    */
   id?: string;
+  /**
+   * Insert element in body
+   */
+  body?: boolean;
 }
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     head?: {
       title?: TitleOptions | (() => TitleOptions);
-      meta?: IElement[] | (() => IElement[]);
-      link?: IElement[] | (() => IElement[]);
-      script?: IElement[] | (() => IElement[]);
-      style?: IElement[] | (() => IElement[]);
+      meta?: ElementOptions[] | (() => ElementOptions[]);
+      link?: ElementOptions[] | (() => ElementOptions[]);
+      script?: ElementOptions[] | (() => ElementOptions[]);
+      style?: ElementOptions[] | (() => ElementOptions[]);
     };
   }
 }
