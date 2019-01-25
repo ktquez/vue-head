@@ -61,7 +61,7 @@ interface IElement extends Object {
    */
   undo?: boolean;
   /**
-   *  Id for element updating
+   * Id for element updating
    * https://github.com/ktquez/vue-head#replace-content-the-elements
    */
   id?: string;
