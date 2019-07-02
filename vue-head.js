@@ -144,7 +144,11 @@
       if (!arr) return
       arr.map(function (obj) {
         var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
-        var el = window.document.getElementById(obj.id) || window.document.createElement(tag)
+        var el = window.document.getElementById(obj.id)
+        if (!el) {
+          el = window.document.createElement(tag)
+          update = false
+        }
         // Elements that will substitute data
         if (el.hasAttribute('id')) {
           self.prepareElement(obj, el)
