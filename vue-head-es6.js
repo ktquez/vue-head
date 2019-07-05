@@ -132,7 +132,11 @@
       if (!arr) return
       arr.map(obj => {
         let parent = (obj.body) ? this.getPlace('body') : this.getPlace(place)
-        let el = window.document.getElementById(obj.id) || window.document.createElement(tag)
+        let el = window.document.getElementById(obj.id)
+        if (!el) {
+          el = window.document.createElement(tag)
+          update = false
+        }
         // Elements that will substitute data
         if (el.hasAttribute('id')) {
           this.prepareElement(obj, el)
