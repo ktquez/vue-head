@@ -62,7 +62,7 @@
      */
     undo: function () {
       if (!els.length) return
-      els.map(function (el) {
+      els.forEach(function (el) {
         el.parentElement.removeChild(el)
       })
       els = []
@@ -77,7 +77,7 @@
      */
     prepareElement: function (obj, el) {
       var self = this
-      Object.keys(obj).map(function (prop) {
+      Object.keys(obj).forEach(function (prop) {
         var sh = self.shorthand[prop] || prop
         if (sh.match(/(body|undo|replace)/g)) return
         if (sh === 'inner') {
@@ -142,7 +142,7 @@
     handle: function (arr, tag, place, update) {
       var self = this
       if (!arr) return
-      arr.map(function (obj) {
+      arr.forEach(function (obj) {
         var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
         var el = window.document.getElementById(obj.id)
         if (!el) {
@@ -189,7 +189,7 @@
       var self = this
       var head = (typeof self.$options.head === 'function') ? self.$options.head.bind(self)() : self.$options.head
       if (!head) return
-      Object.keys(head).map(function (key) {
+      Object.keys(head).forEach(function (key) {
         var prop = head[key]
         if (!prop) return
         var obj = (typeof prop === 'function') ? head[key].bind(self)() : head[key]
@@ -215,14 +215,14 @@
     if (Vue.version.match(/[1].(.)+/g)) {
       Vue.mixin({
         ready: function () {
-          init.bind(this)()
+          init.call(this)
         },
         destroyed: function () {
-          destroy.bind(this)()
+          destroy.call(this)
         },
         events: {
           updateHead: function () {
-            init.bind(this)(true)
+            init.call(this, true)
             util.update()
           }
         }
@@ -234,21 +234,21 @@
         created: function () {
           var self = this
           self.$on('updateHead', function () {
-            init.bind(self)(true)
+            init.call(this, true)
             util.update()
           })
         },
         mounted: function () {
-          init.bind(this)()
+          init.call(this)
         },
         beforeDestroy: function () {
-          destroy.bind(this)()
+          destroy.call(this)
         }
       })
     }
   }
 
-  VueHead.version = '2.0.11'
+  VueHead.version = '2.2.0'
 
   // auto install
   if (typeof Vue !== 'undefined') {

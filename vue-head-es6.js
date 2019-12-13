@@ -38,7 +38,7 @@
     },
 
     /**
-     * This function return the element <head>
+     * This function return the element by tagName
      * @type {Function}
      * @return {Object}
      */
@@ -62,9 +62,7 @@
      */
     undo () {
       if (!els.length) return
-      els.map(el => {
-        el.parentElement.removeChild(el)
-      })
+      els.forEach(el => el.parentElement.removeChild(el))
       els = []
     },
 
@@ -76,7 +74,7 @@
      * @return {HTMLElement} with defined attributes
      */
     prepareElement (obj, el) {
-      Object.keys(obj).map(prop => {
+      Object.keys(obj).forEach(prop => {
         let sh = (this.shorthand[prop] || prop)
         if (sh.match(/(body|undo|replace)/g)) return
         if (sh === 'inner') {
@@ -130,7 +128,7 @@
      */
     handle (arr, tag, place, update) {
       if (!arr) return
-      arr.map(obj => {
+      arr.forEach(obj => {
         let parent = (obj.body) ? this.getPlace('body') : this.getPlace(place)
         let el = window.document.getElementById(obj.id)
         if (!el) {
@@ -172,7 +170,7 @@
     function init (update) {
       let head = (typeof this.$options.head === 'function') ? this.$options.head.bind(this)() : this.$options.head
       if (!head) return
-      Object.keys(head).map(key => {
+      Object.keys(head).forEach(key => {
         let prop = head[key]
         if (!prop) return
         let obj = (typeof prop === 'function') ? head[key].bind(this)() : head[key]
@@ -185,7 +183,7 @@
       this.$emit('okHead')
     }
 
-    function destroy (head) {
+    function destroy () {
       if (!this.$options.head) return
       util.undoTitle(diffTitle)
       util.undo()
@@ -195,14 +193,14 @@
     if (Vue.version.match(/[1].(.)+/g)) {
       Vue.mixin({
         ready () {
-          init.bind(this)()
+          init.call(this)
         },
         destroyed () {
-          destroy(this.$options.head)
+          destroy.call(this)
         },
         events: {
           updateHead () {
-            init.bind(this)(true)
+            init.call(this, true)
             util.update()
           }
         }
@@ -213,21 +211,21 @@
       Vue.mixin({
         created () {
           this.$on('updateHead', () => {
-            init.bind(this)(true)
+            init.call(this, true)
             util.update()
           })
         },
         mounted () {
-          init.bind(this)()
+          init.call(this)
         },
         beforeDestroy () {
-          destroy.bind(this)()
+          destroy.call(this)
         }
       })
     }
   }
 
-  VueHead.version = '2.0.11'
+  VueHead.version = '2.2.0'
 
   // auto install
   if (typeof Vue !== 'undefined') {
