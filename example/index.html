@@ -1,186 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Using vue-head</title>
-  <meta name="description" id="desc" content="My initial description">
-  <link rel="canonical" id="canonical" href="http://myblog.com/">
+    <meta charset="UTF-8">
+    <title>Using vue-head</title>
+    <meta name="description" id="desc" content="My initial description">
+    <link rel="canonical" id="canonical" href="http://myblog.com/">
 
-  <style>
-    .item {
-      display: inline;
-      margin-right: 8px;
-    }
-  </style>
+    <style>
+        .item {
+            display: inline;
+            margin-right: 8px;
+        }
+    </style>
 </head>
+
 <body>
-  
-  <div id="app">
-    <header>
-      <router-link :to="{name: 'example'}">HOME</router-link>
-      <nav>
-        <ul>
-          <li class="item">
-            <router-link :to="{name: 'example.about'}">ABOUT</router-link>
-          </li>
-          <li class="item">
-            <router-link :to="{name: 'example.blog'}">BLOG</router-link>
-          </li>
-          <li class="item">
-            <router-link :to="{name: 'example.contact'}">CONTACT</router-link>
-          </li>          
-        </ul>    
-      </nav>
-    </header>
-    <hr>
-    <main class="content">
-       <router-view></router-view> 
-    </main>
 
-  </div>
+    <div id="app">
+        <header>
+            <router-link :to="{name: 'example'}">HOME</router-link>
+            <nav>
+                <ul>
+                    <li class="item">
+                        <router-link :to="{name: 'example.about'}">ABOUT</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link :to="{name: 'example.blog'}">BLOG</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link :to="{name: 'example.contact'}">CONTACT</router-link>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <hr>
+        <main class="content">
+            <router-view></router-view>
+        </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.1/vue-router.min.js"></script>
-  <script src="../vue-head.js"></script>
+    </div>
 
-  <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.1/vue-router.min.js"></script>
+    <script src="../vue-head.min.js"></script>
 
-  // Component HOME
-  var home = Vue.extend({
-    'template': '<router-view></router-view> '
-  })
+    <script>
+        // Component HOME
+        var home = Vue.extend({
+            'template': '<router-view></router-view> '
+        })
 
-  // Component ABOUT
-  var about = Vue.extend({
-    'template': '<h1>ABOUT</h1>',
-    data: function () {
-      return {
-        infoPage: {
-          title: 'About me'
-        }
-      }
-    },
-    head: {
-      // To use "this" in the component, it is necessary to return the object through a function
-      title: function () {
-        return {
-          inner: this.infoPage.title,
-          separator: ':)'
-        }
-      },
-      meta: [
-        { name: 'description', c: 'About me', id: 'desc' }
-      ],
-      style: [
-        { type: 'text/css', inner: 'body { background-color: #000; color: #fff}' }
-      ],
-      link: [
-        { rel: 'canonical', h: 'http://example.com/#!/about/', id: 'canonical'},
-        { rel: 'icon', href: '/static/assets/favicon-16.png', sizes: '16x16', type: 'image/png' },
-        /* shorthand property */
-        { r: 'icon', h: '/static/assets/favicon-32.png', sz: '32x32', t: 'image/png' }
-      ]
-    }
-  })
+        // Component ABOUT
+        var about = Vue.extend({
+            'template': '<h1>ABOUT</h1>',
+            data: function() {
+                return {
+                    infoPage: {
+                        title: 'About me'
+                    }
+                }
+            },
+            head: {
+                // To use "this" in the component, it is necessary to return the object through a function
+                title: function() {
+                    return {
+                        inner: this.infoPage.title,
+                        separator: ':)'
+                    }
+                },
+                meta: [{
+                    name: 'description',
+                    c: 'About me',
+                    id: 'desc'
+                }],
+                style: [{
+                    type: 'text/css',
+                    inner: 'body { background-color: #000; color: #fff}'
+                }],
+                link: [{
+                        rel: 'canonical',
+                        h: 'http://example.com/#!/about/',
+                        id: 'canonical'
+                    }, {
+                        rel: 'icon',
+                        href: '/static/assets/favicon-16.png',
+                        sizes: '16x16',
+                        type: 'image/png'
+                    },
+                    /* shorthand property */
+                    {
+                        r: 'icon',
+                        h: '/static/assets/favicon-32.png',
+                        sz: '32x32',
+                        t: 'image/png'
+                    }
+                ]
+            }
+        })
 
-  // Component BLOG
-  var blog = Vue.extend({
-    data: function () {
-      return {
-        params: {
-          title: 'website name',
-          description: 'website description',
-          image: false,
-          app: 'app name',          
-        }
-      }
-    },
-    mounted: function(){
-      var self = this
-      window.setTimeout(function () {
-        self.params.title = 'new website name'
-        self.$emit('updateHead')
-      }, 3000)
-    },
-    'template': '<h1>BLOG</h1>',
-    head: {
-      title: function () {
-        return {
-          inner: this.params.title,
-          separator: ' ',
-          complement: ' '
-        }
-      },
-      meta:  function () {
-        return [
-          { name: 'application-name', content: this.params.app },
-          { name: 'description', content: this.params.description },
-          { name: 'twitter:title', content: this.params.title },
-          { n: 'twitter:description', c: this.params.description},
-          { p: 'og:image', c: this.params.image },
-        ]
-      }
-    }
-  })
+        // Component BLOG
+        var blog = Vue.extend({
+            data: function() {
+                return {
+                    params: {
+                        title: 'website name',
+                        description: 'website description',
+                        image: false,
+                        app: 'app name',
+                    }
+                }
+            },
+            mounted: function() {
+                var self = this
+                window.setTimeout(function() {
+                    self.params.title = 'new website name'
+                    self.$emit('updateHead')
+                }, 3000)
+            },
+            'template': '<h1>BLOG</h1>',
+            head: {
+                title: function() {
+                    return {
+                        inner: this.params.title,
+                        separator: ' ',
+                        complement: ' '
+                    }
+                },
+                meta: function() {
+                    return [{
+                        name: 'application-name',
+                        content: this.params.app
+                    }, {
+                        name: 'description',
+                        content: this.params.description
+                    }, {
+                        name: 'twitter:title',
+                        content: this.params.title
+                    }, {
+                        n: 'twitter:description',
+                        c: this.params.description
+                    }, {
+                        p: 'og:image',
+                        c: this.params.image
+                    }, ]
+                }
+            }
+        })
 
-  // Component CONTACT
-  var contact = Vue.extend({
-    'template': '<h1>CONTACT</h1>',
-    head: {
-      title: {
-        inner: 'It will be a pleasure',
-        separator: ' ', // Leave empty separator
-        complement: ' ' // Leave empty complement
-      },
-      meta: [
-        { name: 'description', c: 'Happy for your contact', id: 'desc' }
-      ],
-      link: [
-        { rel: 'canonical', h: 'http://example.com/#!/contact/', id: 'canonical'}
-      ]
-    }
-  })
+        // Component CONTACT
+        var contact = Vue.extend({
+            'template': '<h1>CONTACT</h1>',
+            head: {
+                title: {
+                    inner: 'It will be a pleasure',
+                    separator: ' ', // Leave empty separator
+                    complement: ' ' // Leave empty complement
+                },
+                meta: [{
+                    name: 'description',
+                    c: 'Happy for your contact',
+                    id: 'desc'
+                }],
+                link: [{
+                    rel: 'canonical',
+                    h: 'http://example.com/#!/contact/',
+                    id: 'canonical'
+                }]
+            }
+        })
 
-  // CONFIGURATION 
-  Vue.use(VueHead)
-  Vue.use(VueRouter)
+        // CONFIGURATION
+        Vue.use(VueHead)
+        Vue.use(VueRouter)
 
-  var router = new VueRouter({
-    mode: 'history',
-    routes: [
-      {
-        path: '/example',
-        name: 'example',
-        component: home,
-        children: [
-          {
-            path: 'about',
-            name: 'example.about',
-            component: about
-          },
-          {
-            path: 'blog',
-            name: 'example.blog',
-            component: blog
-          },
-          {
-            path: 'contact',
-            name: 'example.contact',
-            component: contact
-          }
-        ]
-      },
-      {
-        path: '*',
-        component: home
-      }
-    ]
-  })
+        var router = new VueRouter({
+            mode: 'history',
+            routes: [{
+                path: '/example',
+                name: 'example',
+                component: home,
+                children: [{
+                    path: 'about',
+                    name: 'example.about',
+                    component: about
+                }, {
+                    path: 'blog',
+                    name: 'example.blog',
+                    component: blog
+                }, {
+                    path: 'contact',
+                    name: 'example.contact',
+                    component: contact
+                }]
+            }, {
+                path: '*',
+                component: home
+            }]
+        })
 
-  var App = new Vue({
-    router: router
-  }).$mount('#app')
-
-  </script>
+        var App = new Vue({
+            router: router
+        }).$mount('#app')
+    </script>
 </body>
+
 </html>

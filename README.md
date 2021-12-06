@@ -15,7 +15,8 @@ Motivated by [HEAD](https://github.com/joshbuchea/HEAD)
 ...
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/*version*/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/*version*/vue-router.min.js"></script>
-<script src="https://cdn.rawgit.com/ktquez/vue-head/master/vue-head.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-head@2.2.0/vue-head.min.js"></script>
+<!-- Non-minified version: https://cdn.jsdelivr.net/npm/vue-head@2.2.0/vue-head.js -->
 <script>
   // Code here
 </script>
@@ -173,7 +174,7 @@ meta: function () {
   ]
 }
 
-``` 
+```
 
 The whole `head` option can be a function.
 
