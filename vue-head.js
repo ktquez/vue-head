@@ -11,6 +11,8 @@
   var diffTitle = {}
   var els = []
   var diffEls = []
+  var substitutedEls = []
+  var originalSubstitutedEls = []
   var installed = false
 
   var util = {
@@ -66,6 +68,13 @@
         el.parentElement.removeChild(el)
       })
       els = []
+      if(!substitutedEls.length) return
+      substitutedEls.forEach(function (el, idx) {
+        var parent = el.parentElement
+        parent.replaceChild(originalSubstitutedEls[idx], el)
+      })
+      substitutedEls = []
+      originalSubstitutedEls = []
     },
 
     /**
@@ -151,7 +160,9 @@
         }
         // Elements that will substitute data
         if (el.hasAttribute('id')) {
+          originalSubstitutedEls.push(el.cloneNode(true))
           self.prepareElement(obj, el)
+          substitutedEls.push(el)
           return
         }
         // Other elements
