@@ -11,6 +11,8 @@
   const diffTitle = {}
   let els = []
   let diffEls = []
+  let substitutedEls = []
+  let originalSubstitutedEls = []
   let installed = false
 
   const util = {
@@ -64,6 +66,13 @@
       if (!els.length) return
       els.forEach(el => el.parentElement.removeChild(el))
       els = []
+      if(!substitutedEls.length) return
+      substitutedEls.forEach((el, idx) => {
+        var parent = el.parentElement
+        parent.replaceChild(originalSubstitutedEls[idx], el)
+      })
+      substitutedEls = []
+      originalSubstitutedEls = []
     },
 
     /**
@@ -137,7 +146,9 @@
         }
         // Elements that will substitute data
         if (el.hasAttribute('id')) {
+          originalSubstitutedEls.push(el.cloneNode(true))
           this.prepareElement(obj, el)
+          substitutedEls.push(el)
           return
         }
         // Other elements
